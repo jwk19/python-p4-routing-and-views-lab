@@ -20,8 +20,20 @@ def print_string(param):
 
 @app.route('/count/<int:param>')
 def count(param):
-    numbers = "\n".join(str(i) in range(1, param + 1))
-    return numbers
+    try:
+        # Check if the parameter is valid (non-negative)
+        if param < 0:
+            return "Error: Parameter must be a non-negative integer.", 400
+        
+        # Generate the numbers as plain text, separated by newlines
+        numbers = "\n".join(str(i) for i in range(param))  # Range starts from 0 to param-1
+        return numbers, 200  # Return as plain text with status code 200
+    
+    except Exception as e:
+        # Log the exception for debugging
+        print(f"Error in count route: {e}")
+        return "Internal Server Error", 500
+
 
 #math operations route
 
